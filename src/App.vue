@@ -47,17 +47,21 @@ async function loadAnimals() {
   loading.value = false;
 }
 
-loadAnimals();
-
 // ------------------------------------
 
-// TODO 2: Write loadAnimals() and call it.
+// TODO 1: Write loadAnimals() and call it.
+
+loadAnimals();
 
 // ------------------------------------
 // Adopt or Return an Animal
 // ------------------------------------
 
 // TODO 3: Write toggleAdoption(animal).
+
+function toggleAdoption(animal) {
+  animal.adopted = !animal.adopted;
+}
 
 // ------------------------------------
 // Filter, Sort, and Count
@@ -89,6 +93,7 @@ loadAnimals();
             v-for="animal in animals"
             :key="animal.id"
             :animal="animal"
+            @toggle="toggleAdoption(animal)"
           />
         </div>
       </div>
