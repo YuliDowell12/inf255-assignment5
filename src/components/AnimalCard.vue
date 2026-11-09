@@ -5,6 +5,6 @@
 </script>
 
 <template>
-	<!-- TODO 2: Build one animal's card. See README.md for the markup. -->
-	<article class="animal-card"></article>
+  <!-- TODO 2: Build one animal's card. See README.md for the markup. -->
+  <article class="animal-card"></article>
 </template>
