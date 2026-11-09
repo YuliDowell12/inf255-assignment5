@@ -10,6 +10,7 @@
 
 import { ref, computed } from "vue";
 import AnimalCard from "./components/AnimalCard.vue";
+import AnimalControls from "./components/AnimalControls.vue";
 
 // ------------------------------------
 // App Data
@@ -69,6 +70,41 @@ function toggleAdoption(animal) {
 
 // TODO 4: Create activeFilter and activeSort, the visibleAnimals and
 // availableCount computed properties, and setFilter() and setSort().
+
+const activeFilter = ref("all");
+const activeSort = ref("default");
+
+const visibleAnimals = computed(() => {
+  // Work done on a copy so sorting never reorders the animals array itself.
+  let visible = animals.value.slice();
+
+  if (activeFilter.value === "available") {
+    visible = visible.filter((a) => !a.adopted);
+  } else if (activeFilter.value === "adopted") {
+    visible = visible.filter((a) => a.adopted);
+  }
+
+  if (activeSort.value === "name") {
+    visible.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (activeSort.value === "age") {
+    // Negative result puts a before b, so smaller ages come first.
+    visible.sort((a, b) => a.age - b.age);
+  }
+
+  return visible; // returned, not drawn, the template does the drawing
+});
+
+const availableCount = computed(() => {
+  return animals.value.filter((a) => !a.adopted).length;
+});
+
+function setFilter(filter) {
+  activeFilter.value = filter;
+}
+
+function setSort(sort) {
+  activeSort.value = sort;
+}
 </script>
 
 <template>
@@ -83,14 +119,28 @@ function toggleAdoption(animal) {
 
       <!-- TODO 4: The available count goes here. -->
 
+      <p v-if="!loading && !error" id="animal-count">
+        {{ availableCount }} of {{ animals.length }} animals are available for
+        adoption.
+      </p>
+
       <!-- TODO 4: The AnimalControls component goes here. -->
+
+      <AnimalControls
+        :active-filter="activeFilter"
+        @filter="setFilter"
+        @sort="setSort"
+      />
 
       <div id="animal-list">
         <p v-if="loading">Loading animals...</p>
         <p v-else-if="error" class="error-message">{{ error }}</p>
+        <p v-else-if="visibleAnimals.length === 0" class="empty-message">
+          There are no animals to show.
+        </p>
         <div v-else>
           <AnimalCard
-            v-for="animal in animals"
+            v-for="animal in visibleAnimals"
             :key="animal.id"
             :animal="animal"
             @toggle="toggleAdoption(animal)"
