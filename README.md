@@ -67,7 +67,7 @@ depend on it.
 </script>
 
 <template>
-	<!-- HTML that can use the JavaScript above. -->
+  <!-- HTML that can use the JavaScript above. -->
 </template>
 
 <style scoped>
@@ -130,17 +130,17 @@ App owns the data, so App loads it.
 4. **Show each state in the template.** Inside `<div id="animal-list">`, use
    `v-if`, `v-else-if`, and `v-else` so that exactly one of these appears:
 
-   | When | Show |
-   | --- | --- |
-   | `loading` is true | `<p>Loading animals...</p>` |
-   | `error` isn't empty | `<p class="error-message">{{ error }}</p>` |
-   | otherwise | a list of the animals' names (temporary, for this check) |
+   | When                | Show                                                     |
+   | ------------------- | -------------------------------------------------------- |
+   | `loading` is true   | `<p>Loading animals...</p>`                              |
+   | `error` isn't empty | `<p class="error-message">{{ error }}</p>`               |
+   | otherwise           | a list of the animals' names (temporary, for this check) |
 
    For the temporary list, use `v-for`:
 
    ```html
    <div v-else>
-   	<p v-for="animal in animals" :key="animal.id">{{ animal.name }}</p>
+     <p v-for="animal in animals" :key="animal.id">{{ animal.name }}</p>
    </div>
    ```
 
@@ -164,7 +164,7 @@ Each card becomes its own component. App passes it one animal as a **prop**.
 
    ```js
    defineProps({
-   	animal: Object,
+     animal: Object,
    });
    ```
 
@@ -176,11 +176,11 @@ Each card becomes its own component. App passes it one animal as a **prop**.
 
    ```html
    <article class="animal-card">
-   	<h3>Luna</h3>
-   	<p>cat, 3 years old</p>
-   	<p>Arrived Aug 20, 2026 (55 days ago)</p>
-   	<p>Available</p>
-   	<button type="button">Adopt</button>
+     <h3>Luna</h3>
+     <p>cat, 3 years old</p>
+     <p>Arrived Aug 20, 2026 (55 days ago)</p>
+     <p>Available</p>
+     <button type="button">Adopt</button>
    </article>
    ```
 
@@ -231,7 +231,7 @@ button was clicked, and App makes the change.
 2. **Emit it.** On the card's button:
 
    ```html
-   <button type="button" @click="emit('toggle')">
+   <button type="button" @click="emit('toggle')"></button>
    ```
 
 3. **Handle it in App.** In the **Adopt or Return an Animal** section of
@@ -274,7 +274,7 @@ with a **computed property**.
 
    ```js
    const visibleAnimals = computed(() => {
-   	// filter and sort a copy of animals.value, then return it
+     // filter and sort a copy of animals.value, then return it
    });
    ```
 
@@ -297,7 +297,8 @@ with a **computed property**.
 
    ```html
    <p v-if="!loading && !error" id="animal-count">
-   	{{ availableCount }} of {{ animals.length }} animals are available for adoption.
+     {{ availableCount }} of {{ animals.length }} animals are available for
+     adoption.
    </p>
    ```
 
@@ -326,18 +327,18 @@ Only the four available animals should appear. Change it back.
 
    ```html
    <div class="controls">
-   	<div class="filters" role="group" aria-label="Filter animals">
-   		<button type="button" class="active">All</button>
-   		<button type="button">Available</button>
-   		<button type="button">Adopted</button>
-   	</div>
+     <div class="filters" role="group" aria-label="Filter animals">
+       <button type="button" class="active">All</button>
+       <button type="button">Available</button>
+       <button type="button">Adopted</button>
+     </div>
 
-   	<label for="sort-animals">Sort by:</label>
-   	<select id="sort-animals">
-   		<option value="default">Original order</option>
-   		<option value="name">Name</option>
-   		<option value="age">Age</option>
-   	</select>
+     <label for="sort-animals">Sort by:</label>
+     <select id="sort-animals">
+       <option value="default">Original order</option>
+       <option value="name">Name</option>
+       <option value="age">Age</option>
+     </select>
    </div>
    ```
 
@@ -356,9 +357,9 @@ Only the four available animals should appear. Change it back.
 
    ```html
    <AnimalControls
-   	:active-filter="activeFilter"
-   	@filter="setFilter"
-   	@sort="setSort"
+     :active-filter="activeFilter"
+     @filter="setFilter"
+     @sort="setSort"
    />
    ```
 
@@ -400,29 +401,29 @@ explanation of how the app works, so don't use AI to write them. Include:
 Use these to check your work after TODO 4. All of them assume you have not
 adopted or returned anything since the last refresh.
 
-| Filter | Sort | Cards shown, in order |
-| --- | --- | --- |
-| All | Original order | Luna, Biscuit, Pepper, Moose, Charly, Bill, Chompers, Beowulf |
-| All | Name | Beowulf, Bill, Biscuit, Charly, Chompers, Luna, Moose, Pepper |
-| Available | Original order | Luna, Moose, Charly, Chompers |
-| Available | Age | Chompers, Luna, Charly, Moose |
-| Adopted | Age | Bill, Pepper, Biscuit, Beowulf |
+| Filter    | Sort           | Cards shown, in order                                         |
+| --------- | -------------- | ------------------------------------------------------------- |
+| All       | Original order | Luna, Biscuit, Pepper, Moose, Charly, Bill, Chompers, Beowulf |
+| All       | Name           | Beowulf, Bill, Biscuit, Charly, Chompers, Luna, Moose, Pepper |
+| Available | Original order | Luna, Moose, Charly, Chompers                                 |
+| Available | Age            | Chompers, Luna, Charly, Moose                                 |
+| Adopted   | Age            | Bill, Pepper, Biscuit, Beowulf                                |
 
 The count starts at **4 of 8 animals are available for adoption.** Adopting
 Luna changes it to **3 of 8**.
 
 Arrival dates:
 
-| Animal | Arrived |
-| --- | --- |
-| Luna | Aug 20, 2026 |
-| Biscuit | Jun 2, 2026 |
-| Pepper | Jul 15, 2026 |
-| Moose | Sep 10, 2026 |
-| Charly | Sep 28, 2026 |
-| Bill | Aug 3, 2026 |
-| Chompers | Oct 1, 2026 |
-| Beowulf | May 11, 2026 |
+| Animal   | Arrived      |
+| -------- | ------------ |
+| Luna     | Aug 20, 2026 |
+| Biscuit  | Jun 2, 2026  |
+| Pepper   | Jul 15, 2026 |
+| Moose    | Sep 10, 2026 |
+| Charly   | Sep 28, 2026 |
+| Bill     | Aug 3, 2026  |
+| Chompers | Oct 1, 2026  |
+| Beowulf  | May 11, 2026 |
 
 ---
 

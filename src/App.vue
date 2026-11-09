@@ -9,6 +9,7 @@
  */
 
 import { ref, computed } from "vue";
+import AnimalCard from "./components/AnimalCard.vue";
 
 // ------------------------------------
 // App Data
@@ -33,7 +34,7 @@ async function loadAnimals() {
     const response = await fetch("/animals.json");
 
     if (!response.ok) {
-      throw new Error("Request failed with status ${reponse.staus}");
+      throw new Error(`Request failed with status ${response.status}`);
     }
 
     animals.value = await response.json();
@@ -84,7 +85,11 @@ loadAnimals();
         <p v-if="loading">Loading animals...</p>
         <p v-else-if="error" class="error-message">{{ error }}</p>
         <div v-else>
-          <p v-for="animal in animals" :key="animal.id">{{ animal.name }}</p>
+          <AnimalCard
+            v-for="animal in animals"
+            :key="animal.id"
+            :animal="animal"
+          />
         </div>
       </div>
     </section>
