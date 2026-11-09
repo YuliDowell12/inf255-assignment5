@@ -74,6 +74,11 @@ function toggleAdoption(animal) {
 const activeFilter = ref("all");
 const activeSort = ref("default");
 
+// the visibleAnimals computed property replaced updateDisplay(). Instead of filtering, sorting, and drawing cards by hand,
+// it works out which animals should be shown and returns that list. Vue notices which refs the code reads,
+// so whichever one of them changes (activeFilter, activeSort, animals), Vue updates the page automatically. So,
+// updatDisplay() doesnt have to be called again after anything is updated.
+
 const visibleAnimals = computed(() => {
   // Work done on a copy so sorting never reorders the animals array itself.
   let visible = animals.value.slice();

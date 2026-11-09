@@ -1,3 +1,29 @@
+**About this project**
+
+1. **How to run it.**
+
+1a. Clone the repo (hit <> code in github, download Zip, and open the file using VScode)
+
+1b. Run npm install, which downloads Vue, Day.js, and Vite into node_modeules
+
+1c. Run npm dev which starts the app and gives you a localhost link to the browser
+
+2. **Component map.**
+
+App.vue: App.vue owns all the data and decides what changes. It doesnt have any props itself because it is the top of the "tree", so theres also no emits from it either. It listens for toggles from AnimalCard, and for filter and sort from AnimalControls.
+
+AnimalCard.vue: AnimalCard's job is to show an animals card. Its prop is animal whcih comes from App's v-for, and it emits a toggle (App listens).
+
+AnimalControls.vue: AnimalControl's job is to show the filter and sort button menu, its prop is activeFilter, which comes from App. It emits filter and sort, while App listens for it.
+
+3. **Trace a click.**
+
+   When a user clicks adopt, the buttons @click runs emit('toggle'). Since App is listening with @toggle="toggleAdoption(animal)", toggleAdoption flips Luna's adtoped from false to true. That change is recognize and Luna's card is updated to be a gray background, "adopted", and now has a "return" button. Then, the availableCount is recalculated.
+
+4. **Compare with Assignment 4.**
+
+   In assignment 4, every change ended with a call to updateDisplay(), but with Vue that work can be split in two. The visibleAnimals property filters and sorts the animals, and availableCount figures out the count, so the template shows whatever those two values say. So when data like activeFilter changes, Vue recognizes that itself and updates the page on its own, and I dont have to call updateDisplay() anymore. I do think that because Vue handles the redrawing instead of me doing it makes things simpler and its a little more logical, since it gets rid of a really repetitive piece of code. I still have to decide what the data is and which component owns it (in this case its App). I also still decide what each event means and which function handles those events (for example, toggleAdoption for Adopt). Vue continuosly updates the page, but I still have to decide what it should show.
+
 # Assignment 5 — Vue Components and Events
 
 You will rebuild the animal adoption board from Assignment 4 in Vue. It will look
